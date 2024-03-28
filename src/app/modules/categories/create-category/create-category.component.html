@@ -1,4 +1,6 @@
 <div class="card">
+  <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading$ | async"></span>
+
   <div class="card-body border-top p-9">
 
     <div class="row g-9 mb-8">
@@ -47,20 +49,20 @@
     <div class="row mb-6">
       <div class="col-lg-6 fv-row fv-plugins-icon-container">
         <label class="col-form-label required fw-semibold fs-6">Name:</label>
-        <input type="text" name="name" class="form-control form-control-lg form-control-solid"
+        <input type="text" name="name" [(ngModel)]="name" class="form-control form-control-lg form-control-solid"
           placeholder="Category name">
       </div>
 
       <div class="col-lg-6 fv-row fv-plugins-icon-container">
-        <label class="col-form-label required fw-semibold fs-6">Icon:</label>
-        <input type="text" name="icon" class="form-control form-control-lg form-control-solid"
+        <label class="col-form-label fw-semibold fs-6" [ngClass]="{'required': typeCategory == 1}">Icon:</label>
+        <input type="text" name="icon" [(ngModel)]="icon" class="form-control form-control-lg form-control-solid"
           placeholder="Category icon">
       </div>
     </div>
 
     <div class="row mb-6">
       <div class="col-lg-6 col-md-6 col-sm-12 my-2">
-        <label class="form-label required">Upload an image:</label>
+        <label class="form-label" [ngClass]="{'required': typeCategory == 1}">Upload an image:</label>
         <div class="custom-file">
           <input type="file" class="form-control form-control-lg form-control-solid" id="customFile"
             accept=".jpeg, .bmp, .jpg, .png, .gif, .webp" (change)="processFile($event)">
@@ -70,8 +72,7 @@
         <!-- Image Preview -->
         <div class="image-input image-input-outline mt-4">
           <!--begin::Preview existing avatar-->
-          <div class="image-input-wrapper w-175px h-175px" style="background-image: url(https://picsum.photos/200)">
-          </div>
+          <img [src]="imgPreview" alt="Category image" class="image-input-wrapper w-175px h-175px">
           <!--end::Preview existing avatar-->
 
         </div>
@@ -79,26 +80,44 @@
 
       <div class="col-lg-6 fv-row fv-plugins-icon-container">
         <label class="col-form-label required fw-semibold fs-6">Position:</label>
-        <input type="number" name="position" class="form-control form-control-lg form-control-solid" placeholder="5">
+        <input type="number" name="position" [(ngModel)]="position"
+          class="form-control form-control-lg form-control-solid" placeholder="5">
       </div>
 
     </div>
 
-    <div class="row mb-6">
+    <div class="row mb-6" *ngIf="typeCategory != 1">
       <div class="col-lg-6 fv-row fv-plugins-icon-container" *ngIf="typeCategory == 2 || typeCategory == 3">
         <label class="col-form-label required fw-semibold fs-6">Department:</label>
-        <select class="form-select form-select-lg fw-bolder" name="department" placeholder="Selec. Departamento">
-          <option value="">Todos</option>
+        <select class="form-select form-select-lg fw-bolder" name="department" placeholder="Select department"
+          [(ngModel)]="department" (change)="onChangeDepartment($event)">
+          <option value="">Select...</option>
+          <ng-container *ngFor="let option of optionsDepartment">
+            <option value="{{option.id}}">{{option.name}}</option>
+          </ng-container>
         </select>
       </div>
 
       <div class="col-lg-6 fv-row fv-plugins-icon-container" *ngIf="typeCategory == 3">
         <label class="col-form-label required fw-semibold fs-6">Category:</label>
-        <select class="form-select form-select-lg fw-bolder" name="category" placeholder="Selec. Departamento">
-          <option value="">Todos</option>
+        <select class="form-select form-select-lg fw-bolder" name="category" placeholder="Select category"
+          [(ngModel)]="category" (change)="onChangeCategory($event)">
+          <option value="">Select...</option>
+          <ng-container *ngFor="let option of optionsCategory">
+            <option value="{{option.id}}">{{option.name}}</option>
+          </ng-container>
+
         </select>
       </div>
 
+    </div>
+
+    <div class="row mb-6">
+      <div class="col-3">
+        <button type="button" class="btn btn-primary" (click)="saveCategory()">
+          Save Category
+        </button>
+      </div>
     </div>
 
   </div>
