@@ -17,6 +17,7 @@ export class CreateCategoryComponent implements OnInit {
   public position: number = 0;
   public department: number = 0;
   public category: number = 0;
+  public status: number = 1;
   // Image preview and file
   public imgPreview: string = 'https://picsum.photos/id/14/200/200';
   public imgFile: any = null;
@@ -98,6 +99,7 @@ export class CreateCategoryComponent implements OnInit {
     formData.append('name', this.name);
     formData.append('icon', this.icon);
     formData.append('position', this.position.toString());
+    formData.append('status', this.status.toString());
     formData.append('typeCategory', this.typeCategory.toString());
 
     if (this.imgFile) {

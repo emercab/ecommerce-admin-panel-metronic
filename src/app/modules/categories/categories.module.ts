@@ -9,7 +9,7 @@ import { DeleteCategoryComponent } from './delete-category/delete-category.compo
 import { ListCategoriesComponent } from './list-categories/list-categories.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 
 
@@ -19,7 +19,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
     CreateCategoryComponent,
     EditCategoryComponent,
     DeleteCategoryComponent,
-    ListCategoriesComponent
+    ListCategoriesComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +30,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
     ReactiveFormsModule,
     InlineSVGModule,
     NgbModalModule,
+    NgbPaginationModule,
   ]
 })
 export class CategoriesModule { }

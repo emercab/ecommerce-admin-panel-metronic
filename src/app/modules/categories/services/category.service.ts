@@ -17,7 +17,7 @@ export class CategoryService {
   private _http: HttpClient = inject(HttpClient);
   private _authService: AuthService = inject(AuthService);
 
-  
+
   constructor() {
     // Initialize the BehaviorSubject with false as its initial value
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
@@ -25,15 +25,17 @@ export class CategoryService {
   }
 
 
-  public getCategoriesBySearch(search: string): Observable<any> {
+  public getCategoriesBySearch(search: string, page: number = 1,): Observable<any> {
+
     // Emit true when the request starts
     this.isLoadingSubject.next(true)
 
     // Create the URL and headers for the request
-    const url = `${URL_SERVICES}admin/category`;
+    const url = `${URL_SERVICES}admin/category?search=${search}&page=${page}`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this._authService.token}`
     });
+    console.log(url);
 
     // Make the request and return the observable
     return this._http.get(url, { headers }).pipe(
@@ -66,7 +68,7 @@ export class CategoryService {
     this.isLoadingSubject.next(true)
 
     // Show in console the data to be sent
-    console.log({'received': category});
+    console.log({ 'received': category });
 
     // Create the URL and headers for the request
     const url = `${URL_SERVICES}admin/category`;
@@ -100,7 +102,7 @@ export class CategoryService {
   }
 
 
-  public deleteCategory(id: string): Observable<any>{
+  public deleteCategory(id: string): Observable<any> {
     // Emit true when the request starts
     this.isLoadingSubject.next(true)
 
