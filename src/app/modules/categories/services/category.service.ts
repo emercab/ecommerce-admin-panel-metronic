@@ -35,8 +35,7 @@ export class CategoryService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this._authService.token}`
     });
-    console.log(url);
-
+    console.log({ url })
     // Make the request and return the observable
     return this._http.get(url, { headers }).pipe(
       // Emit false when the request is completed

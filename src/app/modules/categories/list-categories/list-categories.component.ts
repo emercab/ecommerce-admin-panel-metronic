@@ -3,13 +3,14 @@ import { CategoryService } from '../services/category.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { colorLighten } from 'src/app/_metronic/kt/_utils';
+import { HelperService } from 'src/app/helpers/helper.service';
 
 @Component({
   selector: 'app-list-categories',
   templateUrl: './list-categories.component.html',
   styleUrls: ['./list-categories.component.scss']
 })
-export class ListCategoriesComponent implements OnInit{
+export class ListCategoriesComponent implements OnInit {
 
   public categories: any[] = [];
   public search: string = '';
@@ -20,6 +21,7 @@ export class ListCategoriesComponent implements OnInit{
   // Inject the services
   private _categoryService: CategoryService = inject(CategoryService);
   private _modalService: NgbModal = inject(NgbModal);
+  private _helperService: HelperService = inject(HelperService);
 
 
   constructor() {}
@@ -38,6 +40,9 @@ export class ListCategoriesComponent implements OnInit{
         this.categories = response.categories.data;
         this.totalPages = response.totalPages;
         this.currentPage = page;
+      },
+      error: () => {
+        this._helperService.toaster('Error loading categories.', 'Error', 'error');
       }
     });
   }
@@ -59,7 +64,6 @@ export class ListCategoriesComponent implements OnInit{
 
   public categorySearch($event: Event): void {
     this.search = ($event.target as HTMLInputElement).value;
-    console.log(this.search);
-    this._categoryService.getCategoriesBySearch(this.search);
+    this.listCategories();
   }
 }
